@@ -1,4 +1,5 @@
 ﻿using LinkedList;
+using static LinkedList.DynamicList;
 
 public class Program
 {
@@ -10,13 +11,13 @@ public class Program
         shoppingList.Add("Honey");
         shoppingList.Add("Olives");
         shoppingList.Add("Beer");
-        shoppingList.Remove("Olives");
+        shoppingList.Remove(1);
 
         Console.WriteLine("We need to buy:");
 
         for (int i = 0; i < shoppingList.Count; i++)
         {
-            Console.WriteLine(shoppingList[i]);
+            Console.WriteLine(shoppingList[i]);         
         }
 
         Console.WriteLine("Do we have to buy Bread? " +

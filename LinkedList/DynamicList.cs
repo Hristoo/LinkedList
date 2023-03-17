@@ -6,6 +6,7 @@
         {
             private object element;
             private Node next;
+            private Node prev;
 
             public object Element
             {
@@ -19,15 +20,23 @@
                 set { next = value; }
             }
 
-            public Node(object element, Node prevNode)
+            public Node Prev
+            {
+                get { return prev; }
+                set { prev = value; }
+            }
+
+            public Node(object element, Node prevNode, Node nextNode)
             {
                 this.element = element;
                 prevNode.next = this;
+                nextNode.prev = this;
             }
             public Node(object element)
             {
                 this.element = element;
                 next = null;
+                prev = null;
             }
         }
         private Node head;
@@ -41,6 +50,8 @@
         }
         public void Add(object item)
         {
+            var node = new Node(item);
+
             if (head == null)
             {
                 head = new Node(item);
@@ -48,8 +59,10 @@
             }
             else
             {
-                Node newNode = new Node(item, tail);
-                tail = newNode;
+                node.Next = null;
+                tail.Next = node;
+                node.Prev = tail;
+                tail = node;
             }
             count++;
         }
@@ -65,10 +78,12 @@
             int currentIndex = 0;
             Node currentNode = head;
             Node prevNode = null;
+            Node nextNode = null;
 
             while (currentIndex < index)
             {
                 prevNode = currentNode;
+                nextNode = currentNode.Next;
                 currentNode = currentNode.Next;
                 currentIndex++;
             }
@@ -80,11 +95,19 @@
             }
             else if (prevNode == null)
             {
+                nextNode = currentNode.Next;
+                nextNode.Prev = currentNode.Prev;
                 head = currentNode.Next;
+            }
+            else if(nextNode == null)
+            {
+                prevNode.Next = null;
             }
             else
             {
                 prevNode.Next = currentNode.Next;
+                nextNode = currentNode.Next;
+                nextNode.Prev = currentNode.Prev;
             }
 
             Node lastElement = null;
@@ -108,6 +131,7 @@
             int currentIndex = 0;
             Node currentNode = head;
             Node prevNode = null;
+            Node nextNode = null;
 
             while (currentNode != null)
             {
@@ -119,6 +143,7 @@
                 }
 
                 prevNode = currentNode;
+                nextNode = currentNode.Next;
                 currentNode = currentNode.Next;
                 currentIndex++;
             }
@@ -133,11 +158,19 @@
                 }
                 else if (prevNode == null)
                 {
+                    nextNode = currentNode.Next;
+                    nextNode.Prev = currentNode.Prev;
                     head = currentNode.Next;
+                }
+                else if (nextNode == null)
+                {
+                    prevNode.Next = null;
                 }
                 else
                 {
                     prevNode.Next = currentNode.Next;
+                    nextNode = currentNode.Next;
+                    nextNode.Prev = currentNode.Prev;
                 }
 
                 Node lastElement = null;
