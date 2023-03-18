@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace LinkedList
+﻿namespace LinkedList
 {
     public class DynamicList
     {
@@ -50,6 +48,7 @@ namespace LinkedList
             this.tail = null;
             this.count = 0;
         }
+
         public void Add(object item, int position)
         {
             var node = new Node(item);
@@ -67,7 +66,7 @@ namespace LinkedList
                 head = node;
             }
             else if (position >= count)
-            {   
+            {
 
                 node.Next = null;
                 tail.Next = node;
@@ -92,57 +91,64 @@ namespace LinkedList
                 nextNode.Prev = node;
                 tempNode.Next = node;
                 head = tempNode;
-                
-
-                //node.Next = tempNode.Next;
-                //node.Prev = tempNode;
-                //tempNode.Next = node;
-                //node.Next = 
-                //node.getNext().setPrev(node);
             }
             count++;
         }
 
         public object Remove(int index)
         {
+            Node currentNode = head;
+
+
             if (index >= count || index < 0)
             {
                 throw new ArgumentOutOfRangeException(
                       "Invalid index: " + index);
             }
-
-            int currentIndex = 0;
-            Node currentNode = head;
-            Node prevNode = null;
-            Node nextNode = null;
-
-            while (currentIndex < index)
+            else if (index == 0)
             {
-                prevNode = currentNode.Prev;
-                nextNode = currentNode.Next;
-                currentIndex++;
+                if (count == 1)
+                {
+                    head = tail = null;
+                    count--;
+                }
+                else
+                {
+                    head = head.Next;
+                    head.Prev = null;
+                    count--; ;
+                }
             }
-            count--;
+            else if (index >= count)
+            {
+                Node tempNode = tail.Prev;
 
-            if (count == 0)
-            {
-                head = null;
-            }
-            else if (prevNode == null)
-            {
-                nextNode = currentNode.Next;
-                nextNode.Prev = currentNode.Prev;
-                head = currentNode.Next;
-            }
-            else if(nextNode == null)
-            {
-                prevNode.Next = null;
+                if (tempNode == head)
+                {
+                    tail = head = null;
+                    count--;
+                }
+                tempNode.Next = null;
+                tail = tempNode;
+                count--;
+
             }
             else
             {
-                prevNode.Next = currentNode.Next;
-                nextNode = currentNode.Next;
-                nextNode.Prev = currentNode.Prev;
+                Node tempNode = head;
+
+                for (int i = 0; i < index - 1; i++)
+                {
+                    tempNode = tempNode.Next;
+                }
+
+                tempNode.Next = tempNode.Next.Next;
+
+                if (tempNode.Next != null)
+                {
+                    tempNode.Next.Prev = tempNode;
+                }
+                count--;
             }
 
             Node lastElement = null;
@@ -186,7 +192,6 @@ namespace LinkedList
             if (currentNode != null)
             {
                 count--;
-
                 if (count == 0)
                 {
                     head = null;
@@ -197,7 +202,7 @@ namespace LinkedList
                     nextNode.Prev = currentNode.Prev;
                     head = currentNode.Next;
                 }
-                else if (nextNode == null)
+                else if (nextNode == null || currentNode.Next == null)
                 {
                     prevNode.Next = null;
                 }
@@ -228,6 +233,13 @@ namespace LinkedList
             {
                 return -1;
             }
+        }
+
+        public void Clear()
+        {
+            head = null;
+            tail = head;
+            count = 0;
         }
 
         public int IndexOf(object item)

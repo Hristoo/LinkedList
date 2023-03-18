@@ -10,8 +10,9 @@ public class Program
         shoppingList.Add("Milk", 0);
         shoppingList.Add("Honey", 1);
         shoppingList.Add("Olives", 2);
-        shoppingList.Add("Beer", 1);
-        shoppingList.Remove(3);
+        shoppingList.Add("Beer", 3);
+        shoppingList.Remove("Beer");
+        //shoppingList.Clear();
 
         Console.WriteLine("We need to buy:");
 
