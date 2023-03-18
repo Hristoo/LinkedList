@@ -1,4 +1,6 @@
-﻿namespace LinkedList
+﻿using System.Drawing;
+
+namespace LinkedList
 {
     public class DynamicList
     {
@@ -48,7 +50,7 @@
             this.tail = null;
             this.count = 0;
         }
-        public void Add(object item)
+        public void Add(object item, int position)
         {
             var node = new Node(item);
 
@@ -57,12 +59,46 @@
                 head = new Node(item);
                 tail = head;
             }
-            else
+            else if (position == 0)
             {
+                node.Next = head;
+                node.Prev = null;
+                head.Prev = node;
+                head = node;
+            }
+            else if (position >= count)
+            {   
+
                 node.Next = null;
                 tail.Next = node;
                 node.Prev = tail;
                 tail = node;
+
+            }
+            else
+            {
+                Node tempNode = head;
+                int index = 0;
+                Node nextNode = null;
+                while (index < position - 1)
+                {
+                    tempNode = tempNode.Next;
+                    index++;
+                }
+
+                node.Next = tempNode.Next;
+                node.Prev = tempNode;
+                nextNode = tempNode.Next;
+                nextNode.Prev = node;
+                tempNode.Next = node;
+                head = tempNode;
+                
+
+                //node.Next = tempNode.Next;
+                //node.Prev = tempNode;
+                //tempNode.Next = node;
+                //node.Next = 
+                //node.getNext().setPrev(node);
             }
             count++;
         }
@@ -82,9 +118,8 @@
 
             while (currentIndex < index)
             {
-                prevNode = currentNode;
+                prevNode = currentNode.Prev;
                 nextNode = currentNode.Next;
-                currentNode = currentNode.Next;
                 currentIndex++;
             }
             count--;
