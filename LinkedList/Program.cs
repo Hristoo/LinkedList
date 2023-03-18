@@ -7,11 +7,11 @@ public class Program
     {
         DynamicList shoppingList = new DynamicList();
 
-        shoppingList.Add("Milk");
-        shoppingList.Add("Honey");
-        shoppingList.Add("Olives");
-        shoppingList.Add("Beer");
-        shoppingList.Remove(1);
+        shoppingList.Add("Milk", 0);
+        shoppingList.Add("Honey", 1);
+        shoppingList.Add("Olives", 2);
+        shoppingList.Add("Beer", 1);
+        shoppingList.Remove(3);
 
         Console.WriteLine("We need to buy:");
 
